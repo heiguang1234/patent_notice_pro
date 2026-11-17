@@ -1,0 +1,43 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light"><title>专利审查 · 评述工作台</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar"><a class="brand" href="./"><span class="brand-icon" aria-hidden="true">审</span><span>专利审查<span class="brand-divider">／</span><span class="brand-sub">评述工作台</span></span></a><span class="local-tag"><i aria-hidden="true"></i>本地工作空间</span></header>
+<div class="workspace-heading"><div><p class="eyebrow">专利审查意见起草</p><h1>从技术比对，到清晰评述。</h1><p class="intro">上传申请材料与对比文件，按指定模板生成权利要求评述。</p></div><div class="workflow"><span><b>01</b> 提交材料</span><span class="flow-line"></span><span><b>02</b> 生成评述</span><span class="flow-line"></span><span><b>03</b> 核对导出</span></div></div>
+<main>
+  <section class="card materials" aria-labelledby="materials-title">
+    <div class="section-heading"><div><span class="step">01</span><h2 id="materials-title">审查材料</h2></div><span class="muted">PDF · DOCX · TXT · MD</span></div>
+    <div id="status" class="connection" role="status">正在连接后端…</div>
+    <form id="form">
+      <div class="upload-group application-upload"><label for="application"><span>申请文件</span><span class="badge required">必填</span></label><p>包含权利要求书与说明书</p><input id="application" name="application" type="file" accept=".pdf,.docx,.txt,.md" required></div>
+      <div class="group-title"><span>对比材料</span><small>编号与上传框一一对应</small></div>
+      <div class="upload-group"><label for="comparison1"><span><b class="file-index">01</b>对比文件1</span><span class="badge required">必填</span></label><p>最接近的现有技术</p><input id="comparison1" name="comparison1" type="file" accept=".pdf,.docx,.txt,.md" required></div>
+      <div id="extraComparisons"></div>
+      <div class="comparison-actions"><button id="addComparison" type="button" class="secondary">＋ 添加对比文件</button><button id="removeComparison" type="button" class="secondary" hidden>移除最后一项</button></div><small class="comparison-note">按需添加，最多10份；编号由上传框确定。</small>
+      <label class="scope-label" for="scope">补充审查要求<span class="muted">选填</span></label><textarea id="scope" name="scope" placeholder="例如：评述权利要求1—10，重点分析区别特征的技术作用与结合启示。" maxlength="4000"></textarea>
+      <div class="form-footnote">每份文件不超过20 MB。扫描件请先识别文字。</div>
+      <button id="submit" class="primary" type="submit">生成权利要求评述<span aria-hidden="true">↗</span></button>
+    </form>
+  </section>
+  <section class="card result" aria-labelledby="result-title">
+    <div class="section-heading result-heading"><div><span class="step">02</span><h2 id="result-title">权利要求评述</h2><span class="result-badge">纯文本</span></div><span id="wordCount" class="muted">等待生成</span></div>
+    <div class="result-toolbar"><div class="writing-rules"><span>权利要求1 · 三步法</span><span>从属权利要求 · 简评</span></div><div id="controls" hidden><button id="copy" class="secondary" type="button">复制全文</button><button id="download" class="secondary export" type="button">下载文本 ↓</button></div></div>
+    <div id="message" class="status" role="status" aria-live="polite">准备就绪。提交左侧材料后，评述将在这里生成。</div>
+    <section id="progressPanel" class="progress-panel" hidden aria-label="处理进度">
+      <div class="progress-heading"><strong id="progressTitle">正在提交材料</strong><span id="elapsedTime">已等待 0 秒</span></div>
+      <ol id="progressSteps" class="progress-steps"><li data-stage="upload">提交材料</li><li data-stage="extract">提取原文</li><li data-stage="prepare">整理输入</li><li data-stage="model">模型生成</li><li data-stage="verify">核查排版</li><li data-stage="done">完成</li></ol>
+      <p id="progressDetail" role="status" aria-live="polite">等待后端接收文件</p><small>显示实际处理阶段与已接收的正文长度。模型生成时间受材料长度与服务负载影响，剩余时间暂无法准确预估。</small>
+    </section>
+    <div id="emptyState" class="empty-state"><div class="paper-icon" aria-hidden="true"><span></span><span></span><span></span></div><h3>让评述回到技术本身</h3><p>以对比文件原文为依据，建立技术特征对应关系。<br>正文仅包含权利要求评述，方便直接复制使用。</p><div class="empty-tags"><span>固定文件编号</span><span>原文引用</span><span>中文标点</span></div></div>
+    <article id="draft" class="draft" hidden aria-label="生成的权利要求评述"></article>
+    <details id="sources" hidden><summary>核对上传原文<span>按文件查看编号段落</span></summary><div id="sourceList"></div></details>
+    <div class="result-footer"><span>原文核查提示显示在页面，不写入评述正文。</span><span>TXT 导出</span></div>
+  </section>
+</main>
+<footer class="page-footer">专利审查评述工作台<span>材料提交 · 技术比对 · 评述导出</span></footer>
+<script src="config.js"></script><script src="notice-view.js"></script><script src="app.js"></script>
+</body></html>
